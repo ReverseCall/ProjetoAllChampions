@@ -17,7 +17,7 @@ def Home(request):
 
 
 def ViewsChapions(request, name):
-    list_all_campeao = ["aatrox","warwick", "gragas", "yasuo"]
+    list_all_campeao = ["aatrox", "warwick", "zac", "yorick"]
     create_page = ["warwick"]
 
     if name not in list_all_campeao:
