@@ -1,18 +1,32 @@
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, Http404
 from django.shortcuts import render
 from django.conf import settings
 
+from django.shortcuts import redirect
+from django.http import HttpResponse
 from django.http import JsonResponse
 import json
 import os
 
 # Create your views here.
 
-
 def Home(request):
-    index = "site.html"
+    #index = "site.html"
+    # return render(request, index)
+    return redirect("/warwick/")
 
-    return render(request, index)
+
+def ViewsChapions(request, name):
+    list_all_campeao = ["aatrox","warwick", "gragas", "yasuo"]
+    create_page = ["warwick"]
+
+    if name not in list_all_campeao:
+        raise Http404()
+
+    if name not in create_page:
+        return HttpResponse(f"<h1 style='display: flex; justify-content: center; text-align: center;'>*pagina .html bem fazida*<br>a pagina para o campeão {name} ainda não foi criada :'c</h1>")
+    
+    return render(request, f"{name}.html")
 
 
 def teste(request):
