@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ComedyHub Downloads</title>
+<link rel="stylesheet" href="{% static 'css/downloadsComedyHub.css'%}">
+
+</head>
+
+<body>
+
+<div class="containe">
+
+    <div class="navbar">
+        <div class="box">
+            <div class="name"><h2>ComedyDownloads</h2></div>
+            <div class="logo">
+                <img src="{% static 'img/carimbo.png'%}" alt="Logo">
+            </div>
+        </div>
+    </div>
+
+    <div class="site">
+        <div class="box text">
+            <h2 id="text-info" class="color-text">baixe videos do ComedyHub</h2>
+            <p id="text-info" class="color-text" style="font-weight: 100; font-size: 14px;">Baixe video é gifs do Comedy hub</p>
+        </div>
+        <form id="downloadForm">
+            <div class="box url">
+                <input type="url" id="videoUrl" name="url" placeholder="Cole a URL do Video aqui!" required autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                <button type="submit" id="downloadBtn">DOWNLOAD</button>
+            </div>
+        </form>
+        <div class="progress-bar" id="progressBar"></div>
+        <div class="message" id="message"></div>
+    </div>
+
+    <div class="barraquente"></div>
+
+</div>
+<script type="module" src="{% static 'js/downloadComedyHub.js'%}"></script>
+</body>
+</html>

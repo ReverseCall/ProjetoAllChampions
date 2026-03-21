@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Status do Sistema</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: #e5e7eb;
+            padding: 40px;
+        }
+        .card {
+            max-width: 500px;
+            margin: auto;
+            background: #020617;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,.4);
+        }
+        .ok { color: #22c55e; }
+        .warn { color: #facc15; }
+        .bad { color: #ef4444; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Status do Site</h1>
+
+        <p>
+            Ambiente:
+            <strong class="{{ ambiente_class }}">
+                {{ ambiente }}
+            </strong>
+        </p>
+
+        <p>ATUALIZANDO: <strong>{{ atualizando }}</strong></p>
+        <p>DEBUG: <strong>{{ debug }}</strong></p>
+        <p>
+            Ambiente:
+            {% if ambiente == "DEV" %}
+                <strong class="ok">{{ ambiente }}</strong>
+            {% else %}
+                <strong class="warn">{{ ambiente }}</strong>
+            {% endif %}
+        </p>
+    </div>
+</body>
+</html>

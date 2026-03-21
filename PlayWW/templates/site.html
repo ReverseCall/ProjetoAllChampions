@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vai deixa 👉👈</title>
+  <link rel="stylesheet" href="{% static 'css/primal.css'%}">
+</head>
+<body>
+
+  <div class="container" id="container">
+    <h1 id="message1">Posso jogar de Warwick?</h1>
+    <h1 id="message2">:'c</h1>
+    <div class="buttons">
+      <button id="yes">Sim</button>
+      <button id="no">Não</button>
+    </div>
+  </div>
+
+  <div id="visualizer-container">
+    <canvas id="visualizer-canvas"></canvas>
+    <div id="center-circle">
+        <canvas id="textCanvas" width="220" height="220"></canvas>
+    </div>
+  </div>
+
+  <div 
+    id="assets"
+    data-emoji1="{% static 'img/icon.webp' %}"
+    data-emoji2="{% static 'img/icon2.webp' %}"
+    data-emoji3="{% static 'img/icon3.webp' %}"
+    data-emoji4="{% static 'img/icon4.webp' %}"
+    data-emoji5="{% static 'img/icon5.webp' %}"
+    data-dog1="{% static 'img/cachorro1.png' %}"
+    data-dog2="{% static 'img/cachorro2.png' %}">
+  </div>
+
+
+  <!-- Elementos para as animações extras -->
+  <div id="emoji-container"></div>
+  <img id="dog-image" src="" alt="Cachorro" class="dog-base">
+
+  <audio id="music" src="{% static 'audio/music_v2.mp3' %}"></audio>
+
+<!-- Importando o scripts -->
+<script src="{% static 'js/animations.js' %}"></script>
+<script type="module" src="{% static 'js/primal.js'%}"></script>
+
+
+</body>
+</html>

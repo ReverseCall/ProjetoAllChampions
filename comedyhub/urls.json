@@ -1,0 +1,10 @@
+{
+  "urls": [
+    "https://cdn.thecomedyhub.com.br/cdn/memes/{post_id}/playlist.m3u8",
+    "https://cdn.thecomedyhub.com.br/cdn/memes/{post_id}/{post_id}.m3u8",
+    "https://comedyhub.b-cdn.net/memes/{post_id}/playlist.m3u8",
+    "https://comedyhub.b-cdn.net/memes/{post_id}/{post_id}.m3u8",
+    "https://comedyhub-api.b-cdn.net/memes/{post_id}/playlist.m3u8",
+    "https://novadomain.com/memes/{post_id}/playlist.m3u8"
+  ]
+}

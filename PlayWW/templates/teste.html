@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Emojis Estilo Twitch</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #0e0e10; /* Cor de fundo escura estilo Twitch */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-family: sans-serif;
+        }
+
+        #emoji-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Garante que os emojis não interfiram nos cliques */
+            z-index: 9999;
+        }
+
+        .floating-emoji {
+            position: absolute;
+            bottom: -50px;
+            width: 100px;
+            height: 100px;
+            opacity: 0;
+            animation: floatUp 4s ease-out forwards;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(var(--random-x)) rotate(var(--random-rotate));
+                opacity: 0;
+            }
+        }
+
+        .controls {
+            text-align: center;
+            pointer-events: auto;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #9147ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #772ce8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <button onclick="spawnEmojis()">teste de emojis</button>
+    </div>
+
+    <div id="emoji-container"></div>
+
+    <script>
+        function spawnEmojis() {
+            const container = document.getElementById('emoji-container');
+            const emojiUrl = "{% static 'img/icon.webp' %}";
+            const count = 50; // Quantidade de emojis por clique
+
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const emoji = document.createElement('img');
+                    emoji.src = emojiUrl;
+                    emoji.className = 'floating-emoji';
+
+                    // Posição horizontal aleatória
+                    const startX = Math.random() * 100;
+                    emoji.style.left = startX + '%';
+
+                    // Variáveis aleatórias para a animação CSS
+                    const randomX = (Math.random() - 0.5) * 200; // Desvio lateral
+                    const randomRotate = (Math.random() - 0.5) * 720; // Rotação aleatória
+                    
+                    emoji.style.setProperty('--random-x', randomX + 'px');
+                    emoji.style.setProperty('--random-rotate', randomRotate + 'deg');
+
+                    // Tamanho levemente aleatório
+                    const size = 50 + Math.random() * 16;
+                    emoji.style.width = size + 'px';
+                    emoji.style.height = 'auto';
+
+                    container.appendChild(emoji);
+
+                    // Remover o elemento após a animação terminar
+                    emoji.addEventListener('animationend', () => {
+                        emoji.remove();
+                    });
+                }, i * 100); // Pequeno atraso entre cada emoji para efeito de "chuva"
+            }
+        }
+    </script>
+</body>
+</html>
