@@ -17,7 +17,8 @@ def Home(request):
 
 
 def ViewsChapions(request, name):
-    list_all_campeao = ["aatrox", "warwick", "zac", "yorick"]
+    index = f"{name}.html"
+    list_all_campeao = ["aatrox", "zac", "warwick", "yorick"]
     create_page = ["warwick"]
 
     if name not in list_all_campeao:
@@ -26,7 +27,7 @@ def ViewsChapions(request, name):
     if name not in create_page:
         return HttpResponse(f"<h1 style='display: flex; justify-content: center; text-align: center;'>*pagina .html bem fazida*<br>a pagina para o campeão {name} ainda não foi criada :'c</h1>")
     
-    return render(request, f"{name}.html")
+    return render(request, index)
 
 
 def teste(request):

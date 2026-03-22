@@ -6,8 +6,8 @@ from django.urls import path
 urlpatterns = [
     path('', Home, name="home"),
     #path('teste', teste, name="test"),
-    path('status', status, name="status"),
-    path("urls.json", urls_json),
+    path('status/', status, name="status"),
+    path("urls.json/", urls_json),
     path("<str:name>/", ViewsChapions, name="bonecos")
 ]
 
