@@ -4,5 +4,7 @@ icon-downloads.png
 baixa.html
 START-STOP/
 url_templates.json
+staticfiles/
 __pycache__/
 *.pyc
+*.map
