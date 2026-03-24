@@ -3,9 +3,18 @@ const videoUrl = document.getElementById('videoUrl');
 const downloadBtn = document.getElementById('downloadBtn');
 const progressBar = document.getElementById('progressBar');
 const messageDiv = document.getElementById('message');
+const icon = document.querySelector(".logo")
+const boop = document.getElementById("click-boop")
 
 let funnyMessages = [];
 let messageRotationInterval = null;
+
+// Boop :3
+icon.addEventListener("click", () => {
+    boop.currentTime = 0; // reinicia o som se clicar rápido
+    boop.play();
+});
+
 
 // Carregar as mensagens divertidas ao inicializar
 async function loadFunnyMessages() {
