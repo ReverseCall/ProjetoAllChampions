@@ -1,0 +1,156 @@
+$baseColor: rgb(17, 21, 34);
+$ouro: rgb(243, 223, 132);
+$ouroTrasparente: rgba(243, 223, 132, 0.178);
+$cianoEscuro: rgb(41, 89, 153);
+$cianoTrasparente: rgba(41, 90, 153, 0.582);
+$cianoPulse: rgba(56, 126, 216, 0.959);
+$blocoBase: rgb(36, 39, 44);
+$trasparente: rgba(255, 0, 0, 0);
+$textBase: rgb(101, 101, 119);
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: $baseColor;
+    padding: 0px 20px 0px 20px;
+    margin: 0px 20% 0px 20%;
+    .container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        div{
+            text-align: center;
+            h1{
+                font-family: "Cinzel Decorative";
+                font-weight: 900;
+                font-size: 2.2rem;
+                letter-spacing: 0.10em;
+                color: $ouro;
+                margin-top: 10px;
+                margin-bottom: 7px;
+            }
+            span{
+                text-transform: uppercase;
+                letter-spacing: 0.10em;
+                font-size: 0.7rem;
+                color: $textBase;
+                strong{
+                    color: $ouro;
+                    letter-spacing: 0.1em;
+                }
+                
+            }
+        }
+    }
+}
+header{
+    padding: 60px 0px 50px 0px;
+    border-bottom: 0.5px solid $ouroTrasparente;
+}
+#status-page{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 2px 20px 2px 20px;
+    font-size: 0.8rem;
+    margin-bottom: 20px;
+    border: solid 1px $cianoEscuro;
+    color: $cianoEscuro;
+    box-shadow: 0 0 30px $cianoTrasparente;
+    border-radius: 99px;
+    &::before{
+        content: "";
+        display: inline-block;
+        width: 9px;
+        height: 9px;
+        background-color: $cianoEscuro;
+        border-radius: 90px;
+        box-shadow: 0 0 20px $cianoPulse;
+        animation: pulse infinite 2s;
+    }
+    
+}
+
+@keyframes pulse{
+    0%{
+        opacity: 1;
+        box-shadow: 0 0 50px $cianoPulse;
+    }
+    50%{
+        opacity: 0.5;
+        box-shadow: 0 0 10px $cianoPulse;
+    }
+    100%{
+        opacity: 1;
+        box-shadow: 0 0 20px $cianoPulse;
+    }
+    
+}
+
+.start-icon{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    color: $ouro;
+    padding: 0px 5px 0px 5px;
+    &::before{
+        content: "";
+        display: block;
+        width: 400px;
+        height: 1px;
+        margin-right: 7px;
+        border-radius: 10px 0px 0px 10px;
+        background: linear-gradient(90deg, $trasparente, $ouro);
+    }
+    &::after{
+        content: "";
+        display: block;
+        width: 400px;
+        height: 1px;
+        margin-left: 7px;
+        border-radius: 10px 0px 0px 10px;
+        background: linear-gradient(90deg, $ouro, $trasparente);
+    }
+}
+
+main{
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .container{
+        width: 100%;
+        .blocos{
+        position: relative;
+        width: 100%;
+        min-height: 300px;
+        background-color: $blocoBase;
+        border-radius: 20px;
+        padding: 28px 32px;
+        border: 1px solid $ouroTrasparente;
+        &::before{
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: linear-gradient(90deg, $trasparente, $ouro, $trasparente);
+            width: 100%;
+            height: 2px;
+
+        }
+    }
+    }
+}

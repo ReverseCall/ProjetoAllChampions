@@ -17,15 +17,25 @@ def Home(request):
 
 
 def ViewsChapions(request, name):
+    # Paginas HTMls
     index = f"{name}.html"
-    list_all_campeao = ["aatrox", "zac", "warwick", "yorick"]
+    contribuicao = "guiaDeContribuicao.html"
+
+    contex = {
+        'nome':name
+    }
+
+    # Lista com as URLs de processamento
+    list_all_campeao = ["aatrox", "zac", "warwick", "yorick", "gragas", "youumi"]
     create_page = ["warwick"]
 
+    # Logica que precisa ser retrabalhada. Ultima atualização 23/03/2026
     if name not in list_all_campeao:
         raise Http404()
 
     if name not in create_page:
-        return HttpResponse(f"<h1 style='display: flex; justify-content: center; text-align: center;'>*pagina .html bem fazida*<br>a pagina para o campeão {name} ainda não foi criada :'c</h1>")
+        return render(request, contribuicao, context=contex)
+        #return HttpResponse(f"<h1 style='display: flex; justify-content: center; text-align: center;'>*pagina .html bem fazida*<br>a pagina para o campeão {name} ainda não foi criada :'c</h1>")
     
     return render(request, index)
 

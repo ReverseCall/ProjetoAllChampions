@@ -8,7 +8,7 @@ urlpatterns = [
     #path('teste', teste, name="test"),
     path('status/', status, name="status"),
     path("urls.json/", urls_json),
-    path("<str:name>/", ViewsChapions, name="bonecos")
+    path("<str:name>", ViewsChapions, name="bonecos")
 ]
 
 
