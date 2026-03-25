@@ -6,8 +6,8 @@
 
 body {
   background-color: rgb(17, 21, 34);
-  padding: 0px 20px 0px 20px;
-  margin: 0px 20% 0px 20%;
+  padding: 0px 20px;
+  margin: 0px 25%;
 }
 body .container {
   display: flex;
@@ -26,6 +26,7 @@ body .container div h1 {
   color: rgb(243, 223, 132);
   margin-top: 10px;
   margin-bottom: 7px;
+  text-shadow: 0 0 20px rgba(243, 202, 19, 0.418);
 }
 body .container div span {
   text-transform: uppercase;
@@ -36,6 +37,7 @@ body .container div span {
 body .container div span strong {
   color: rgb(243, 223, 132);
   letter-spacing: 0.1em;
+  text-shadow: 0 0 10px rgba(243, 202, 19, 0.418);
 }
 
 header {
@@ -49,43 +51,50 @@ header {
   gap: 8px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  padding: 2px 20px 2px 20px;
+  padding: 3px 20px;
   font-size: 0.8rem;
   margin-bottom: 20px;
-  border: solid 1px rgb(41, 89, 153);
+  border-bottom: 1px solid rgba(243, 223, 132, 0.178);
   color: rgb(41, 89, 153);
-  box-shadow: 0 0 30px rgba(41, 90, 153, 0.582);
+  box-shadow: inset 0 0 30px -5px rgba(41, 90, 153, 0.432), 0 0 30px -5px rgba(41, 90, 153, 0.432);
   border-radius: 99px;
+  text-shadow: 0 0 9px rgb(41, 89, 153);
 }
-#status-page::before {
-  content: "";
-  display: inline-block;
-  width: 9px;
-  height: 9px;
+#status-page .bolinhas {
+  display: inline-flex;
+  gap: 6px;
+}
+#status-page .bolinhas i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
   background-color: rgb(41, 89, 153);
-  border-radius: 90px;
-  box-shadow: 0 0 20px rgba(56, 126, 216, 0.959);
-  animation: pulse infinite 2s;
+  display: block;
+  animation: bounce 1.5s infinite ease-in-out;
+}
+#status-page .bolinhas i:nth-child(1) {
+  animation-delay: 0.1s;
+}
+#status-page .bolinhas i:nth-child(2) {
+  animation-delay: 0.4s;
+}
+#status-page .bolinhas i:nth-child(3) {
+  animation-delay: 0.8s;
 }
 
-@keyframes pulse {
-  0% {
-    opacity: 1;
-    box-shadow: 0 0 50px rgba(56, 126, 216, 0.959);
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: translateY(0);
   }
-  50% {
-    opacity: 0.5;
-    box-shadow: 0 0 10px rgba(56, 126, 216, 0.959);
-  }
-  100% {
-    opacity: 1;
-    box-shadow: 0 0 20px rgba(56, 126, 216, 0.959);
+  40% {
+    transform: translateY(-6px);
   }
 }
 .start-icon {
   display: flex;
   flex-direction: row;
   align-items: center;
+  font-size: 30px;
   justify-content: center;
   margin-top: 50px;
   margin-bottom: 50px;
@@ -123,13 +132,13 @@ main .container {
   width: 100%;
 }
 main .container .blocos {
-  position: relative;
   width: 100%;
-  min-height: 300px;
+  min-height: 200px;
   background-color: rgb(36, 39, 44);
   border-radius: 20px;
   padding: 28px 32px;
   border: 1px solid rgba(243, 223, 132, 0.178);
+  margin-bottom: 20px;
 }
 main .container .blocos::before {
   content: "";
@@ -140,4 +149,93 @@ main .container .blocos::before {
   background: linear-gradient(90deg, rgba(255, 0, 0, 0), rgb(243, 223, 132), rgba(255, 0, 0, 0));
   width: 100%;
   height: 2px;
+}
+main .container #info {
+  display: flex;
+  justify-content: space-between;
+}
+main .container #info .blocos {
+  width: 48%;
+  height: 260px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+main .container #info :nth-child(1) {
+  font-size: 2rem;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+main .container #info :nth-child(2) {
+  font-size: 20px;
+  color: rgb(243, 223, 132);
+  font-family: "Cinzel Decorative";
+  font-weight: 600;
+}
+main .container #info :nth-child(3) {
+  font-size: 12px;
+  font-family: "arial";
+  margin-top: 10px;
+  text-align: center;
+  color: rgb(119, 119, 136);
+}
+main .container #info :nth-child(4) {
+  margin-top: 10px;
+  font-size: 12px;
+  position: absolute;
+  left: 10%;
+  bottom: 7%;
+  text-decoration: none;
+  font-size: 12px;
+  font-family: sans-serif;
+  font-weight: 600;
+  color: rgb(41, 89, 153);
+}
+main .container #info :nth-child(4):hover {
+  color: rgba(56, 126, 216, 0.959);
+}
+
+#placarVotacao {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#placarVotacao :nth-child(1), #placarVotacao :nth-child(5) {
+  color: rgb(119, 119, 136);
+  text-shadow: none;
+}
+#placarVotacao :nth-child(2) {
+  color: rgb(243, 223, 132);
+  width: 250px;
+  text-align: center;
+  font-family: "Cinzel Decorative";
+  border-radius: 30px;
+  font-weight: 900;
+  font-size: 5rem;
+  text-shadow: 0 0 30px rgba(243, 202, 19, 0.418);
+}
+#placarVotacao :nth-child(3) {
+  color: rgb(119, 106, 35);
+  margin: 10px 0px 40px;
+  font-family: sans-serif;
+  font-size: 12px;
+}
+#placarVotacao :nth-child(4) {
+  border: rgb(243, 223, 132) solid 1px;
+  background-color: rgba(153, 141, 32, 0.356);
+  border-radius: 20px;
+  font-size: 1rem;
+  width: 60%;
+  height: 60px;
+  color: rgba(243, 202, 19, 0.418);
+  margin-bottom: 20px;
+}
+#placarVotacao :nth-child(4):hover {
+  border-color: rgba(243, 202, 19, 0.418);
+  background-color: rgba(189, 173, 31, 0.356);
+  color: rgb(243, 223, 132);
 }/*# sourceMappingURL=guiaDeContribuicao.css.map */

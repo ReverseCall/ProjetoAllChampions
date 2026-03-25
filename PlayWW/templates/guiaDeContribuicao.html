@@ -17,16 +17,21 @@
         <header>
             <div id="status-page">
                 em produção
+                <span class="bolinhas">
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                </span>
             </div>
             <div>
                 <h1>
-                Guia de Contribuição
-                <br>
-                para Campeões
-            </h1>
-            <div>
-                <span>A página para o campeão <strong>{{ nome|title }}</strong> ainda não foi criada.</span>
-            </div>
+                    Guia de Contribuição
+                    <br>
+                    para Campeões
+                </h1>
+                <div>
+                    <span>A página para o campeão <strong>{{ nome|title }}</strong> ainda não foi criada.</span>
+                </div>
             </div>
         </header>
     </div>
@@ -34,8 +39,29 @@
     <main>
         <div class="container">
             <div class="start-icon">✦</div>
-            <div class="blocos">
-    
+            <div >
+                <div>
+                    <div class="blocos" id="placarVotacao">
+                        <span>pedidos de criação</span>
+                        <p>999</p>
+                        <p>Votos da Comunidade</p>
+                        <button>Vatar para criar a pagina para {{nome | title}}</button>
+                        <span style="font-size: 8px; font-weight: 700;">apenas os seus ultimos <strong>3 votos</strong> são contabilizados</span>
+                    </div>
+                </div>
+                <div id="info">
+                    <div class="blocos">
+                        <div>✨</div>
+                        <div id="textoColor">Doações</div>
+                        <p>Você pode ajudar o site com doações caso voce queira, com isso o insentivo para que eu dedique mais tempo com a criação dessa pagina almenta. (quem falar que isso ajuda a conseguir uma URL melhor)</p>
+                        <a href="#">Como apoiar →</a>
+                    </div>
+                    <div class="blocos">
+                        <div>📦</div>
+                        <div>Você tem uma ideia?</div>
+                        <p>Caso queira ajudar, abaixo estarar um guia com instruções de como voce pode ajudar. Como o projeto ainda está em desenvolvimento, a produção dessas páginas leva tempo — e é aí que você pode fazer a diferença</p>
+                    </div>
+                </div>
             </div>
             <div class="start-icon">✦</div>
         </div>

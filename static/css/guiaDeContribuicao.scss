@@ -1,31 +1,37 @@
 $baseColor: rgb(17, 21, 34);
 $ouro: rgb(243, 223, 132);
+$ouroEscuro: rgb(119, 106, 35);
+$bilho: rgba(243, 202, 19, 0.418);
 $ouroTrasparente: rgba(243, 223, 132, 0.178);
 $cianoEscuro: rgb(41, 89, 153);
-$cianoTrasparente: rgba(41, 90, 153, 0.582);
+$cianoTrasparente: rgba(41, 90, 153, 0.432);
 $cianoPulse: rgba(56, 126, 216, 0.959);
 $blocoBase: rgb(36, 39, 44);
 $trasparente: rgba(255, 0, 0, 0);
 $textBase: rgb(101, 101, 119);
+$textSecundario: rgb(119, 119, 136);
 
-*{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 
-body{
+body {
     background-color: $baseColor;
-    padding: 0px 20px 0px 20px;
-    margin: 0px 20% 0px 20%;
-    .container{
+    padding: 0px 20px;
+    margin: 0px 25%;
+
+    .container {
         display: flex;
         flex-direction: column;
         justify-content: center;
         text-align: center;
-        div{
+
+        div {
             text-align: center;
-            h1{
+
+            h1 {
                 font-family: "Cinzel Decorative";
                 font-weight: 900;
                 font-size: 2.2rem;
@@ -33,77 +39,95 @@ body{
                 color: $ouro;
                 margin-top: 10px;
                 margin-bottom: 7px;
+                text-shadow: 0 0 20px $bilho;
             }
-            span{
+
+            span {
                 text-transform: uppercase;
                 letter-spacing: 0.10em;
                 font-size: 0.7rem;
                 color: $textBase;
-                strong{
+
+                strong {
                     color: $ouro;
                     letter-spacing: 0.1em;
+                    text-shadow: 0 0 10px $bilho;
                 }
-                
+
             }
         }
     }
 }
-header{
+
+header {
     padding: 60px 0px 50px 0px;
     border-bottom: 0.5px solid $ouroTrasparente;
 }
-#status-page{
+
+#status-page {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    padding: 2px 20px 2px 20px;
+    padding: 3px 20px;
     font-size: 0.8rem;
     margin-bottom: 20px;
-    border: solid 1px $cianoEscuro;
+    border-bottom: 1px solid $ouroTrasparente;
     color: $cianoEscuro;
-    box-shadow: 0 0 30px $cianoTrasparente;
+    box-shadow: 
+    inset 0 0 30px -5px $cianoTrasparente,
+    0 0 30px -5px $cianoTrasparente;
     border-radius: 99px;
-    &::before{
-        content: "";
-        display: inline-block;
-        width: 9px;
-        height: 9px;
-        background-color: $cianoEscuro;
-        border-radius: 90px;
-        box-shadow: 0 0 20px $cianoPulse;
-        animation: pulse infinite 2s;
+    text-shadow: 0 0 9px $cianoEscuro;
+    .bolinhas {
+        display: inline-flex;
+        gap: 6px;
+        i {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: $cianoEscuro;
+            display: block;
+            animation: bounce 1.5s infinite ease-in-out;
+        }
+        i:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        i:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+        i:nth-child(3) {
+            animation-delay: 0.8s;
+        }
     }
-    
 }
 
-@keyframes pulse{
-    0%{
-        opacity: 1;
-        box-shadow: 0 0 50px $cianoPulse;
+@keyframes bounce {
+
+    0%,
+    80%,
+    100% {
+        transform: translateY(0);
     }
-    50%{
-        opacity: 0.5;
-        box-shadow: 0 0 10px $cianoPulse;
+
+    40% {
+        transform: translateY(-6px);
     }
-    100%{
-        opacity: 1;
-        box-shadow: 0 0 20px $cianoPulse;
-    }
-    
 }
 
-.start-icon{
+.start-icon {
     display: flex;
     flex-direction: row;
     align-items: center;
+    font-size: 30px;
     justify-content: center;
     margin-top: 50px;
     margin-bottom: 50px;
     color: $ouro;
     padding: 0px 5px 0px 5px;
-    &::before{
+
+    &::before {
         content: "";
         display: block;
         width: 400px;
@@ -112,7 +136,8 @@ header{
         border-radius: 10px 0px 0px 10px;
         background: linear-gradient(90deg, $trasparente, $ouro);
     }
-    &::after{
+
+    &::after {
         content: "";
         display: block;
         width: 400px;
@@ -123,34 +148,135 @@ header{
     }
 }
 
-main{
+main {
     position: relative;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    .container{
-        width: 100%;
-        .blocos{
-        position: relative;
-        width: 100%;
-        min-height: 300px;
-        background-color: $blocoBase;
-        border-radius: 20px;
-        padding: 28px 32px;
-        border: 1px solid $ouroTrasparente;
-        &::before{
-            content: "";
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            background: linear-gradient(90deg, $trasparente, $ouro, $trasparente);
-            width: 100%;
-            height: 2px;
 
+    .container {
+        width: 100%;
+
+        .blocos {
+            width: 100%;
+            min-height: 200px;
+            background-color: $blocoBase;
+            border-radius: 20px;
+            padding: 28px 32px;
+            border: 1px solid $ouroTrasparente;
+            margin-bottom: 20px;
+
+            &::before {
+                content: "";
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                background: linear-gradient(90deg, $trasparente, $ouro, $trasparente);
+                width: 100%;
+                height: 2px;
+
+            }
+        }
+
+        #info {
+            display: flex;
+            justify-content: space-between;
+
+            .blocos {
+                width: 48%;
+                height: 260px;
+                margin-top: 10px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+            }
+
+            :nth-child(1) {
+                font-size: 2rem;
+                margin-top: 10px;
+                margin-bottom: 5px;
+            }
+
+            :nth-child(2) {
+                font-size: 20px;
+                color: $ouro;
+                font-family: "Cinzel Decorative";
+                font-weight: 600;
+            }
+
+            :nth-child(3) {
+                font-size: 12px;
+                font-family: "arial";
+                margin-top: 10px;
+                text-align: center;
+                color: $textSecundario;
+
+            }
+
+            :nth-child(4) {
+                margin-top: 10px;
+                font-size: 12px;
+                position: absolute;
+                left: 10%;
+                bottom: 7%;
+                text-decoration: none;
+                font-size: 12px;
+                font-family: sans-serif;
+                font-weight: 600;
+                color: $cianoEscuro;
+
+                &:hover {
+                    color: $cianoPulse;
+                }
+
+            }
         }
     }
+}
+
+#placarVotacao{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    :nth-child(1), :nth-child(5){
+        color: $textSecundario;
+        text-shadow: none;
+    }
+    :nth-child(2){
+        color: $ouro;
+        width: 250px;
+        text-align: center;
+        font-family: "Cinzel Decorative";
+        border-radius: 30px;
+        font-weight: 900;
+        font-size: 5rem;
+        text-shadow: 0 0 30px $bilho;
+    }
+    :nth-child(3){
+        color: $ouroEscuro;
+        margin: 10px 0px 40px;
+        font-family: sans-serif;
+        font-size: 12px;
+    }
+    :nth-child(4){
+        border: $ouro solid 1px;
+        background-color: rgba(153, 141, 32, 0.356);
+        border-radius: 20px;
+        font-size: 1rem;
+        width: 60%;
+        height: 60px;
+        color: $bilho;
+        margin-bottom: 20px;
+        &:hover{
+            border-color: $bilho;
+            background-color: rgba(189, 173, 31, 0.356);
+            color: $ouro;
+        }
     }
 }

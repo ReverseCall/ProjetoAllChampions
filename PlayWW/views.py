@@ -13,7 +13,7 @@ import os
 def Home(request):
     #index = "site.html"
     # return render(request, index)
-    return redirect("/warwick/")
+    return redirect("/warwick")
 
 
 def ViewsChapions(request, name):
