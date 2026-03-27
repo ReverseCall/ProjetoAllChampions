@@ -23,9 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-u(^ed*33*rek-%2lbt)0c80)&r$(@)axg4-0qe6s+#*$lk(6gx'
 
+MODERATION_PASSWORD = "senha123"
 # SECURITY WARNING: don't run with debug turned on in production!
 ATUALIZANDO = True
 DEBUG = ATUALIZANDO
+
 
 if ATUALIZANDO:
     ALLOWED_HOSTS = ["loscomedyhub.qzz.io", "127.0.0.1", "localhost"]
