@@ -9,3 +9,4 @@ __pycache__/
 *.pyc
 *.map
 db.sqlite3
+.env
