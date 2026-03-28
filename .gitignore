@@ -10,4 +10,4 @@ __pycache__/
 *.map
 db.sqlite3
 .env
-management/
+PlayWW/management/
