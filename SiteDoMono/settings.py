@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,16 +24,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-u(^ed*33*rek-%2lbt)0c80)&r$(@)axg4-0qe6s+#*$lk(6gx'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
-MODERATION_PASSWORD = "senha123"
+MODERATION_PASSWORD = os.getenv('ADM_PASS')
 # SECURITY WARNING: don't run with debug turned on in production!
 ATUALIZANDO = True
 DEBUG = ATUALIZANDO
 
 
 if ATUALIZANDO:
-    ALLOWED_HOSTS = ["loscomedyhub.qzz.io", "127.0.0.1", "localhost"]
+    ALLOWED_HOSTS = ["loscomedyhub.qzz.io", "127.0.0.1", "localhost", "100.100.64.64"]
 else:
     ALLOWED_HOSTS = ["loscomedyhub.qzz.io"]
 

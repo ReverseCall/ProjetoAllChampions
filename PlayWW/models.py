@@ -2,20 +2,27 @@ import uuid
 import hashlib
 from django.db import models
 from django.utils import timezone
+from .utils import slugify_champion
 
 
 class Champion(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True, db_index=True)
     vote_count = models.PositiveIntegerField(default=0)
 
     class Meta:
         ordering = ['-vote_count']
 
+    def save(self, *args, **kwargs):
+        # Garante que o slug sempre está sincronizado com o name
+        if not self.slug:
+            self.slug = slugify_champion(self.name)
+        super().save(*args, **kwargs)
+
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.slug})"
 
 
-# Salva algumas informações sobre quem esta usando o site.
 class VoterSession(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, unique=True, db_index=True)
     ip_hash = models.CharField(max_length=64)
@@ -30,31 +37,20 @@ class VoterSession(models.Model):
         return hashlib.sha256(ip.encode()).hexdigest()
 
     def get_votes_ordered(self):
-        # Retorna os votos ordenados por posição (1, 2, 3)
         return self.votes.select_related('champion').order_by('vote_order')
-    
 
-# Sistema de registro de votos, {1} max {4}!
+
 class Vote(models.Model):
-    session = models.ForeignKey(
-        VoterSession, on_delete=models.CASCADE, related_name='votes'
-    )
-    champion = models.ForeignKey(
-        Champion, on_delete=models.CASCADE, related_name='vote_records'
-    )
-    vote_order = models.PositiveSmallIntegerField()  # 1, 2 ou 3
+    session = models.ForeignKey(VoterSession, on_delete=models.CASCADE, related_name='votes')
+    champion = models.ForeignKey(Champion, on_delete=models.CASCADE, related_name='vote_records')
+    vote_order = models.PositiveSmallIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        # Uma sessão não pode ter dois votos
-        unique_together = [('session', 'vote_order')]
-
-        # Uma sessão não pode votar duas vezes no mesmo campeão
         unique_together = [('session', 'champion'), ('session', 'vote_order')]
         indexes = [models.Index(fields=['session', 'vote_order'])]
 
 
-# Sistema de segurança para evitar span de votos falsos (pfv funciona agora DX)
 class DailyVoteStat(models.Model):
     date = models.DateField(unique=True)
     vote_count = models.PositiveIntegerField(default=0)
@@ -69,34 +65,20 @@ class DailyVoteStat(models.Model):
     def increment_today(cls):
         today = timezone.now().date()
         obj, _ = cls.objects.get_or_create(date=today, defaults={'vote_count': 0})
-        cls.objects.filter(pk=obj.pk).update(
-            vote_count=models.F('vote_count') + 1
-        )
-        # Verifica anomalia após incrementar
+        cls.objects.filter(pk=obj.pk).update(vote_count=models.F('vote_count') + 1)
         obj.refresh_from_db()
         cls._check_anomaly(obj)
 
     @classmethod
     def _check_anomaly(cls, today_stat):
-        # Verificação dos ultimos 7 dias, verifica se o total do dia e X5 maior
         from django.db.models import Avg
-
         if today_stat.flagged:
-            return  # Já foi sinalizado, não precisa checar de novo
-
-        # Pega a média dos 7 dias anteriores (exclui o proprio dia)
-        week_stats = cls.objects.filter(
-            date__lt=today_stat.date
-        ).order_by('-date')[:7]
-
+            return
+        week_stats = cls.objects.filter(date__lt=today_stat.date).order_by('-date')[:7]
         week_avg = week_stats.aggregate(avg=Avg('vote_count'))['avg']
-
-        # Precisa de pelo menos 3 dias de histórico e um mínimo de 5 votos/dia
         if week_avg is None or week_avg < 5 or week_stats.count() < 3:
             return
-
-        threshold = week_avg * 5
-        if today_stat.vote_count >= threshold:
+        if today_stat.vote_count >= week_avg * 5:
             cls.objects.filter(pk=today_stat.pk).update(
                 flagged=True,
                 flag_reason=(

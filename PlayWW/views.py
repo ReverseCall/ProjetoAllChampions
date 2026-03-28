@@ -1,25 +1,21 @@
-import uuid
+import os
 import json
 from datetime import timedelta
-
 from django.conf import settings
 from django.utils import timezone
+from django.shortcuts import render
+from .utils import slugify_champion
+from django.shortcuts import redirect
 from django.db import transaction, models
 from django.http import JsonResponse, Http404
 from django.views.decorators.csrf import csrf_protect
 from django.http import HttpResponseForbidden, Http404
-from django.views.decorators.http import require_GET, require_POST
-from django.shortcuts import render
-from django.conf import settings
-
 from .models import Champion, Vote, VoterSession, DailyVoteStat
-from django.shortcuts import redirect
-# from django.http import HttpResponse
-import json
-import os
+from django.views.decorators.http import require_GET, require_POST
+
 
 SESSION_COOKIE_NAME = "voter_uuid"
-SESSION_COOKIE_AGE = 60 * 60 * 24 * 30  # 30 dias
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
 MAX_VOTES = 3
 MAX_TOTAL_VOTES = 9999  # Limite global de votos
 
@@ -89,37 +85,43 @@ def Home(request):
 
 def ViewsChapions(request, name):
     # Paginas HTMls
-    index = f"{name}.html"
-    contribuicao = "guiaDeContribuicao.html"
-
-    # Lista de campeões que já têm página criada
-    create_page = ["warwick"]
+    PaginaGuia = "guiaDeContribuicao.html"
+    canonical_slug = slugify_champion(name)
+    create_page = ["warwick"] # lista com paginas criadas.
  
-    # Valida se o campeão existe no banco
-    if not Champion.objects.filter(name=name).exists():
+    # Se a URL não está no formato esperado, redireciona
+    if name != canonical_slug:
+        return redirect("champion", name=canonical_slug, permanent=True)
+ 
+    # Busca pelo slug
+    try:
+        champion = Champion.objects.get(slug=canonical_slug)
+    except Champion.DoesNotExist:
         raise Http404()
  
-    if name not in create_page:
-        champion = Champion.objects.get(name=name)
+    if champion.slug not in create_page:
         session = get_or_create_session(request)
         current_votes = serialize_votes(session)
  
         context = {
-            "nome": name,
+            "nome": champion.name,   # nome de exibição do campeão
+            "slug": champion.slug,   # nome que aparece na URL
             "total_votos": champion.vote_count,
             "meus_votos_json": json.dumps(current_votes),
         }
-        response = render(request, contribuicao, context=context)
+        response = render(request, PaginaGuia, context=context)
         set_session_cookie(response, session)
         return response
  
-    return render(request, index)
+    return render(request, f"{champion.slug}.html")
 
 
+# URl de testes para novas paginas e projetos.
 def teste(request):
     index = "teste.html"
 
     return render(request, index)
+
 
 def status(request):
     if request.get_host().split(':')[0] not in ('127.0.0.1', 'localhost', 'loscomedyhub.qzz.io'):
