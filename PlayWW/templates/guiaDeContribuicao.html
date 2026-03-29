@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/guiaDeContribuicao.css' %}">
-
+    <link rel="stylesheet" href="{% static 'css/guiaContribuicao.js' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap" rel="stylesheet">
@@ -103,165 +103,9 @@
         const SERVER_STATE = {
             totalVotos: {{ total_votos }},
             meusVotos: {{ meus_votos_json|safe }},
-            champion: "{{ nome }}"
+            champion: "{{ nome|escapejs }}"
         };
     </script>
 
-    <script>
-    (() => {
-        // ─────────────────────────────────────────────
-        // Constantes
-        // ─────────────────────────────────────────────
-        const LS_KEY = `votos_${SERVER_STATE.champion}`;
-        const MAX_VOTOS = 3;
-
-        // ─────────────────────────────────────────────
-        // localStorage — apenas cache de UI
-        // A fonte da verdade é sempre o servidor.
-        // O localStorage evita piscar o estado ao recarregar.
-        // ─────────────────────────────────────────────
-        function salvarCache(totalVotos, meusVotos) {
-            try {
-                localStorage.setItem(LS_KEY, JSON.stringify({ totalVotos, meusVotos }));
-            } catch (_) {
-                // localStorage indisponível (modo anônimo bloqueado, etc.) — ignora silenciosamente
-            }
-        }
-
-        function lerCache() {
-            try {
-                const raw = localStorage.getItem(LS_KEY);
-                return raw ? JSON.parse(raw) : null;
-            } catch (_) {
-                return null;
-            }
-        }
-
-        // ─────────────────────────────────────────────
-        // Renderização
-        // ─────────────────────────────────────────────
-        function renderizarVotos(totalVotos, meusVotos) {
-            document.getElementById("totalVotos").textContent = totalVotos;
-        }
-
-        function atualizarBotao(meusVotos) {
-            const btn = document.getElementById("btnVotar");
-            const jaVotou = meusVotos.some(v => v.champion === SERVER_STATE.champion);
-
-            if (jaVotou) {
-                btn.disabled = true;
-                btn.textContent = `✓ Você já votou em ${capitalize(SERVER_STATE.champion)}`;
-            } else {
-                btn.disabled = false;
-                btn.textContent = `Votar para criar a página de ${capitalize(SERVER_STATE.champion)}`;
-            }
-        }
-
-        function mostrarFeedback(mensagem, tipo = "info") {
-            const el = document.getElementById("feedbackVoto");
-            el.textContent = mensagem;
-            el.style.display = "block";
-            el.style.color = tipo === "erro" ? "#c0392b" : tipo === "sucesso" ? "#27ae60" : "#666";
-            setTimeout(() => { el.style.display = "none"; }, 3500);
-        }
-
-        function capitalize(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
-        }
-
-        // ─────────────────────────────────────────────
-        // Pega o CSRF token do cookie (necessário para POST no Django)
-        // ─────────────────────────────────────────────
-        function getCsrfToken() {
-            const match = document.cookie.match(/csrftoken=([^;]+)/);
-            return match ? match[1] : "";
-        }
-
-        // ─────────────────────────────────────────────
-        // Sincroniza com o servidor ao carregar a página
-        // ─────────────────────────────────────────────
-        async function sincronizarComServidor() {
-            const btn = document.getElementById("btnVotar");
-            const stateUrl = btn.dataset.stateUrl;
-
-            try {
-                const resp = await fetch(stateUrl, { credentials: "same-origin" });
-                if (!resp.ok) return;
-                const data = await resp.json();
-
-                // Atualiza cache e UI com dados frescos do servidor
-                salvarCache(data.total_votos, data.meus_votos);
-                renderizarVotos(data.total_votos, data.meus_votos);
-                atualizarBotao(data.meus_votos);
-            } catch (_) {
-                // Sem conexão — usa cache local como fallback de UI
-                const cache = lerCache();
-                if (cache) {
-                    renderizarVotos(cache.totalVotos, cache.meusVotos);
-                    atualizarBotao(cache.meusVotos);
-                }
-            }
-        }
-
-        // ─────────────────────────────────────────────
-        // Ação de votar
-        // ─────────────────────────────────────────────
-        async function votar() {
-            const btn = document.getElementById("btnVotar");
-            if (btn.disabled) return;
-
-            btn.disabled = true;
-            const original = btn.textContent;
-            btn.textContent = "Enviando…";
-
-            try {
-                const resp = await fetch(btn.dataset.url, {
-                    method: "POST",
-                    credentials: "same-origin",
-                    headers: {
-                        "X-CSRFToken": getCsrfToken(),
-                        "Content-Type": "application/json",
-                    },
-                });
-
-                const data = await resp.json();
-
-                if (resp.ok && data.success) {
-                    salvarCache(data.total_votos, data.meus_votos);
-                    renderizarVotos(data.total_votos, data.meus_votos);
-                    atualizarBotao(data.meus_votos);
-                    mostrarFeedback("✓ Voto registrado!", "sucesso");
-                } else {
-                    // Voto duplicado ou outro erro esperado
-                    btn.disabled = false;
-                    btn.textContent = original;
-                    mostrarFeedback(data.error || "Erro ao votar.", "erro");
-                }
-            } catch (_) {
-                btn.disabled = false;
-                btn.textContent = original;
-                mostrarFeedback("Sem conexão. Tente novamente.", "erro");
-            }
-        }
-
-        // ─────────────────────────────────────────────
-        // Inicialização
-        // ─────────────────────────────────────────────
-        function init() {
-            // 1. Renderiza imediatamente com dados do servidor (evita flash)
-            renderizarVotos(SERVER_STATE.totalVotos, SERVER_STATE.meusVotos);
-            atualizarBotao(SERVER_STATE.meusVotos);
-            salvarCache(SERVER_STATE.totalVotos, SERVER_STATE.meusVotos);
-
-            // 2. Sincroniza com o servidor em background para garantir frescor
-            sincronizarComServidor();
-
-            // 3. Botão de votação
-            document.getElementById("btnVotar").addEventListener("click", votar);
-        }
-
-        document.addEventListener("DOMContentLoaded", init);
-    })();
-    </script>
 </body>
 </html>
