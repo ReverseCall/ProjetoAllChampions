@@ -11,10 +11,7 @@ from django.views.decorators.http import require_POST, require_GET
 
 from .models import Champion, Vote, VoterSession, DailyVoteStat
 
-# ──────────────────────────────────────────────────────────────
-# Senha de acesso — defina no seu settings.py:
-#   MODERATION_PASSWORD = "sua_senha_aqui"
-# ──────────────────────────────────────────────────────────────
+# Senha de acesso — defina no settings.py:
 MODERATION_SESSION_KEY = "mod_autenticado"
 
 
@@ -22,10 +19,7 @@ def _is_authenticated(request) -> bool:
     return request.session.get(MODERATION_SESSION_KEY) is True
 
 
-# ──────────────────────────────────────────────────────────────
 # Login / Logout
-# ──────────────────────────────────────────────────────────────
-
 @csrf_protect
 def mod_login(request):
     if _is_authenticated(request):
@@ -53,10 +47,7 @@ def mod_logout(request):
     return redirect("mod_login")
 
 
-# ──────────────────────────────────────────────────────────────
 # Painel principal
-# ──────────────────────────────────────────────────────────────
-
 @require_GET
 def mod_painel(request):
     if not _is_authenticated(request):
@@ -84,10 +75,7 @@ def mod_painel(request):
     return render(request, "moderacao/painel.html", context)
 
 
-# ──────────────────────────────────────────────────────────────
 # Ações sobre um dia suspeito
-# ──────────────────────────────────────────────────────────────
-
 @require_POST
 @csrf_protect
 def mod_aprovar(request, stat_id):
