@@ -11,11 +11,16 @@ urlpatterns = [
     path("urls.json/", urls_json),
     path("vote/<str:name>/", api_vote, name="api_vote"),
     path("vote/<str:name>/state/", api_vote_state, name="api_vote_state"),
+
+    # Path adiministrativas
     path("adm", mod_views.mod_painel, name="mod_painel"),
     path("adm/login", mod_views.mod_login,  name="mod_login"),
     path("adm/logout/", mod_views.mod_logout, name="mod_logout"),
     path("adm/aprovar/<int:stat_id>/", mod_views.mod_aprovar, name="mod_aprovar"),
     path("adm/limpar/<int:stat_id>/", mod_views.mod_limpar,  name="mod_limpar"),
+
+    path("adm/set-featured/", mod_views.mod_set_featured, name="mod_set_featured"),
+    path("adm/buscar-campeoes/", mod_views.mod_search_champions, name="mod_search_champions"),
 
     # API
     path("<str:name>", ViewsChapions, name="bonecos"),

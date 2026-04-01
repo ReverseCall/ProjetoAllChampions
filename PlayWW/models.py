@@ -5,6 +5,32 @@ from django.utils import timezone
 from .utils import slugify_champion
 
 
+
+
+# Seletor de personagem em destaque (vai que algume bane WW né?)
+class SiteConfig(models.Model):
+    featured_champion = models.ForeignKey(
+        'Champion',
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name="Campeão em destaque (redirect de /)",
+    )
+    updated_at = models.DateTimeField(auto_now=True)
+ 
+    class Meta:
+        verbose_name = "Configuração do site"
+ 
+    @classmethod
+    def get(cls):
+        obj, _ = cls.objects.get_or_create(pk=1)
+        return obj
+ 
+    def __str__(self):
+        name = self.featured_champion.name if self.featured_champion else "nenhum"
+        return f"Config do site — destaque: {name}"
+
+
 class Champion(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True, db_index=True)

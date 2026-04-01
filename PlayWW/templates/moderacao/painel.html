@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -6,294 +7,11 @@
 <title>Moderação — Painel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #0a0a0f;
-    --surface: #0f0f1a;
-    --surface2: #12121f;
-    --border: #1e2035;
-    --accent: #e8c84a;
-    --accent-dim: #8a7530;
-    --green: #4ae89a;
-    --red: #e84a4a;
-    --red-dim: rgba(232,74,74,.12);
-    --blue: #4a9ae8;
-    --text: #c8cce8;
-    --text-dim: #5a5e7a;
-    --mono: 'Share Tech Mono', monospace;
-    --display: 'Orbitron', sans-serif;
-  }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--mono);
-    min-height: 100vh;
-  }
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(232,200,74,.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(232,200,74,.025) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* ── Layout ── */
-  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px 64px; position: relative; z-index: 1; }
-
-  /* ── Header ── */
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 28px 0 28px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 36px;
-  }
-  .header-left { display: flex; flex-direction: column; gap: 4px; }
-  .header-tag {
-    font-size: 10px;
-    letter-spacing: .2em;
-    color: var(--accent);
-    text-transform: uppercase;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .header-tag::before {
-    content: '';
-    width: 6px; height: 6px;
-    background: var(--accent);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-  h1 {
-    font-family: var(--display);
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: .06em;
-    color: #fff;
-  }
-  .logout {
-    font-size: 11px;
-    letter-spacing: .12em;
-    color: var(--text-dim);
-    text-decoration: none;
-    text-transform: uppercase;
-    border: 1px solid var(--border);
-    padding: 8px 14px;
-    transition: color .2s, border-color .2s;
-  }
-  .logout:hover { color: var(--red); border-color: var(--red); }
-
-  /* ── Stat cards ── */
-  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 40px; }
-  .stat-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 20px 24px;
-    position: relative;
-    animation: fadeUp .4s ease both;
-  }
-  .stat-card:nth-child(2) { animation-delay: .05s; }
-  .stat-card:nth-child(3) { animation-delay: .1s; }
-  .stat-label {
-    font-size: 10px;
-    letter-spacing: .18em;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-  .stat-value {
-    font-family: var(--display);
-    font-size: 28px;
-    font-weight: 700;
-    color: #fff;
-  }
-  .stat-value.danger { color: var(--red); }
-  .stat-value.ok { color: var(--green); }
-
-  /* ── Seção ── */
-  .section-title {
-    font-size: 11px;
-    letter-spacing: .2em;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    margin-bottom: 16px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  /* ── Flags ── */
-  .empty {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 28px;
-    text-align: center;
-    font-size: 13px;
-    color: var(--text-dim);
-  }
-
-  .flag-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--red);
-    padding: 20px 24px;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    animation: fadeUp .35s ease both;
-  }
-  .flag-card.resolvido {
-    border-left-color: var(--border);
-    opacity: .45;
-    pointer-events: none;
-  }
-
-  .flag-info { flex: 1; min-width: 0; }
-  .flag-date {
-    font-family: var(--display);
-    font-size: 14px;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 4px;
-  }
-  .flag-reason {
-    font-size: 12px;
-    color: var(--text-dim);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .flag-votos {
-    font-size: 22px;
-    font-family: var(--display);
-    font-weight: 700;
-    color: var(--red);
-    min-width: 60px;
-    text-align: right;
-  }
-  .flag-votos small { display: block; font-size: 9px; color: var(--text-dim); font-family: var(--mono); }
-
-  .flag-actions { display: flex; gap: 8px; }
-  .btn {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: .1em;
-    padding: 9px 16px;
-    border: 1px solid;
-    background: transparent;
-    cursor: pointer;
-    transition: background .2s, color .2s;
-    text-transform: uppercase;
-  }
-  .btn-ok  { color: var(--green); border-color: var(--green); }
-  .btn-ok:hover  { background: var(--green); color: var(--bg); }
-  .btn-del { color: var(--red); border-color: var(--red); }
-  .btn-del:hover { background: var(--red); color: #fff; }
-  .btn:disabled { opacity: .4; cursor: default; pointer-events: none; }
-
-  /* ── Tabela de atividade recente ── */
-  .table-wrap { margin-top: 40px; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th {
-    text-align: left;
-    font-size: 10px;
-    letter-spacing: .18em;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    padding: 0 16px 12px;
-    border-bottom: 1px solid var(--border);
-  }
-  td {
-    padding: 12px 16px;
-    border-bottom: 1px solid rgba(30,32,53,.6);
-    color: var(--text);
-  }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: rgba(255,255,255,.02); }
-  .badge {
-    display: inline-block;
-    font-size: 10px;
-    padding: 3px 8px;
-    border-radius: 2px;
-    text-transform: uppercase;
-    letter-spacing: .1em;
-  }
-  .badge-flag { background: var(--red-dim); color: var(--red); }
-  .badge-ok   { background: rgba(74,232,154,.1); color: var(--green); }
-
-  /* ── Toast ── */
-  #toast {
-    position: fixed;
-    bottom: 32px;
-    right: 32px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--accent);
-    padding: 14px 20px;
-    font-size: 13px;
-    color: var(--text);
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity .25s, transform .25s;
-    z-index: 100;
-    pointer-events: none;
-    max-width: 320px;
-  }
-  #toast.show { opacity: 1; transform: translateY(0); }
-  #toast.toast-ok   { border-left-color: var(--green); }
-  #toast.toast-erro { border-left-color: var(--red); }
-
-  /* ── Modal de confirmação ── */
-  .overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.7);
-    z-index: 200;
-    align-items: center;
-    justify-content: center;
-  }
-  .overlay.show { display: flex; }
-  .modal {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-top: 3px solid var(--red);
-    padding: 36px 40px;
-    max-width: 380px;
-    width: 100%;
-    animation: fadeUp .2s ease both;
-  }
-  .modal h2 { font-family: var(--display); font-size: 15px; color: #fff; margin-bottom: 12px; }
-  .modal p  { font-size: 12px; color: var(--text-dim); line-height: 1.6; margin-bottom: 28px; }
-  .modal .modal-btns { display: flex; gap: 10px; justify-content: flex-end; }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; } 50% { opacity: .3; }
-  }
-
-  @media (max-width: 640px) {
-    .stats { grid-template-columns: 1fr 1fr; }
-    .flag-card { flex-wrap: wrap; }
-    .flag-votos { min-width: auto; }
-  }
-</style>
+<link rel="stylesheet" href="{% static 'css/pagAdm.css' %}">
 </head>
 <body>
 <div class="wrap">
 
-  <!-- Header -->
   <header>
     <div class="header-left">
       <div class="header-tag">Sistema de Moderação</div>
@@ -302,7 +20,29 @@
     <a href="{% url 'mod_logout' %}" class="logout">Sair →</a>
   </header>
 
-  <!-- Stat cards -->
+  <div class="featured-block">
+    <div class="featured-label">↳ Redirect de /</div>
+    <div class="featured-current">
+      {% if config.featured_champion %}
+        <span class="featured-name">{{ config.featured_champion.name }}</span>
+        <span class="featured-slug">/{{ config.featured_champion.slug }}/</span>
+      {% else %}
+        <span class="featured-none">Nenhum campeão definido — usando fallback</span>
+      {% endif %}
+    </div>
+    <div class="search-row">
+      <input
+        type="text"
+        class="search-input"
+        id="featuredSearch"
+        placeholder="Buscar campeão..."
+        autocomplete="off"
+      >
+      <button class="btn-clear" onclick="limparDestaque()">✗ Limpar</button>
+    </div>
+    <div class="search-results" id="featuredResults"></div>
+  </div>
+
   <div class="stats">
     <div class="stat-card">
       <div class="stat-label">Flags pendentes</div>
@@ -324,9 +64,7 @@
     </div>
   </div>
 
-  <!-- Flags -->
   <div class="section-title">⚠ Dias com atividade suspeita</div>
-
   <div id="lista-flags">
     {% if not flags %}
       <div class="empty">Nenhuma atividade suspeita detectada. Tudo limpo.</div>
@@ -342,34 +80,20 @@
           <small>votos</small>
         </div>
         <div class="flag-actions">
-          <button
-            class="btn btn-ok"
-            title="Votos legítimos — manter"
-            onclick="aprovar({{ f.pk }}, this)"
-          >✓ Manter</button>
-          <button
-            class="btn btn-del"
-            title="Votos suspeitos — remover"
-            onclick="confirmarLimpar({{ f.pk }}, '{{ f.date|date:'d/m/Y' }}', {{ f.vote_count }})"
-          >✗ Limpar</button>
+          <button class="btn btn-ok" onclick="aprovar({{ f.pk }}, this)">✓ Manter</button>
+          <button class="btn btn-del" onclick="confirmarLimpar({{ f.pk }}, '{{ f.date|date:'d/m/Y' }}', {{ f.vote_count }})">✗ Limpar</button>
         </div>
       </div>
       {% endfor %}
     {% endif %}
   </div>
 
-  <!-- Atividade recente (últimos 7 dias) -->
   <div class="table-wrap">
     <div class="section-title">Atividade — últimos 7 dias</div>
     {% if ultimos_7 %}
     <table>
       <thead>
-        <tr>
-          <th>Data</th>
-          <th>Votos</th>
-          <th>Status</th>
-          <th>Observação</th>
-        </tr>
+        <tr><th>Data</th><th>Votos</th><th>Status</th><th>Observação</th></tr>
       </thead>
       <tbody>
         {% for d in ultimos_7 %}
@@ -383,9 +107,7 @@
               <span class="badge badge-ok">ok</span>
             {% endif %}
           </td>
-          <td style="color: var(--text-dim); font-size: 12px;">
-            {{ d.flag_reason|default:"—" }}
-          </td>
+          <td style="color: var(--text-dim); font-size: 12px;">{{ d.flag_reason|default:"—" }}</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -395,7 +117,6 @@
     {% endif %}
   </div>
 
-  <!-- Top campeões -->
   <div class="table-wrap">
     <div class="section-title">Ranking de votos por campeão</div>
     <table>
@@ -414,12 +135,10 @@
     </table>
   </div>
 
-</div><!-- /wrap -->
+</div>
 
-<!-- Toast -->
 <div id="toast"></div>
 
-<!-- Modal confirmação de limpeza -->
 <div class="overlay" id="overlay">
   <div class="modal">
     <h2>Confirmar remoção</h2>
@@ -431,100 +150,7 @@
   </div>
 </div>
 
-<script>
-  const CSRF = "{{ csrf_token }}";
-
-  // ── Toast ───────────────────────────────────────────────────
-  function toast(msg, tipo = "ok") {
-    const el = document.getElementById("toast");
-    el.textContent = msg;
-    el.className = `show toast-${tipo}`;
-    clearTimeout(el._t);
-    el._t = setTimeout(() => { el.className = ""; }, 3500);
-  }
-
-  // ── Manter votos ────────────────────────────────────────────
-  async function aprovar(id, btn) {
-    btn.disabled = true;
-    btn.closest(".flag-actions").querySelectorAll(".btn").forEach(b => b.disabled = true);
-
-    try {
-      const r = await fetch(`/moderacao/aprovar/${id}/`, {
-        method: "POST",
-        headers: { "X-CSRFToken": CSRF },
-        credentials: "same-origin",
-      });
-      const d = await r.json();
-      if (d.success) {
-        document.getElementById(`flag-${id}`).classList.add("resolvido");
-        toast(`✓ Dia ${d.data} marcado como legítimo.`, "ok");
-        atualizarContador(-1);
-      } else {
-        toast(d.error || "Erro ao aprovar.", "erro");
-        btn.disabled = false;
-      }
-    } catch (_) {
-      toast("Sem conexão.", "erro");
-      btn.disabled = false;
-    }
-  }
-
-  // ── Limpar votos (com confirmação) ──────────────────────────
-  let _pendingLimpar = null;
-
-  function confirmarLimpar(id, dataStr, qtd) {
-    _pendingLimpar = id;
-    document.getElementById("modal-texto").textContent =
-      `Isso vai remover permanentemente ${qtd} votos do dia ${dataStr}. Esta ação não pode ser desfeita.`;
-    document.getElementById("overlay").classList.add("show");
-
-    document.getElementById("modal-confirmar").onclick = () => executarLimpar(id);
-  }
-
-  function fecharModal() {
-    document.getElementById("overlay").classList.remove("show");
-    _pendingLimpar = null;
-  }
-
-  async function executarLimpar(id) {
-    fecharModal();
-    const card = document.getElementById(`flag-${id}`);
-    card.querySelectorAll(".btn").forEach(b => b.disabled = true);
-
-    try {
-      const r = await fetch(`/moderacao/limpar/${id}/`, {
-        method: "POST",
-        headers: { "X-CSRFToken": CSRF },
-        credentials: "same-origin",
-      });
-      const d = await r.json();
-      if (d.success) {
-        card.classList.add("resolvido");
-        toast(`✗ ${d.removidos} votos removidos (${d.data}).`, "erro");
-        atualizarContador(-1);
-      } else {
-        toast(d.error || "Erro ao limpar.", "erro");
-        card.querySelectorAll(".btn").forEach(b => b.disabled = false);
-      }
-    } catch (_) {
-      toast("Sem conexão.", "erro");
-      card.querySelectorAll(".btn").forEach(b => b.disabled = false);
-    }
-  }
-
-  // Fecha modal ao clicar fora
-  document.getElementById("overlay").addEventListener("click", e => {
-    if (e.target === e.currentTarget) fecharModal();
-  });
-
-  // ── Atualiza o contador de flags no topo ────────────────────
-  function atualizarContador(delta) {
-    const el = document.querySelector(".stat-value.danger, .stat-value.ok");
-    if (!el) return;
-    const novo = Math.max(0, (parseInt(el.textContent) || 0) + delta);
-    el.textContent = novo;
-    el.className = `stat-value ${novo > 0 ? "danger" : "ok"}`;
-  }
-</script>
+<script>const CSRF = "{{ csrf_token }}";</script>
+<script src="{% static 'js/pagAdm.js' %}"></script>
 </body>
 </html>

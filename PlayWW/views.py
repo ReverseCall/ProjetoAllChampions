@@ -10,7 +10,7 @@ from django.db import transaction, models
 from django.http import JsonResponse, Http404
 from django.views.decorators.csrf import csrf_protect
 from django.http import HttpResponseForbidden, Http404
-from .models import Champion, Vote, VoterSession, DailyVoteStat
+from .models import Champion, Vote, VoterSession, DailyVoteStat, SiteConfig
 from django.views.decorators.http import require_GET, require_POST
 
 
@@ -78,9 +78,11 @@ def serialize_votes(session: VoterSession) -> list:
 
 
 def Home(request):
-    #index = "site.html"
-    # return render(request, index)
-    return redirect("/warwick")
+    config = SiteConfig.get()
+    if config.featured_champion:
+        return redirect("champion", name=config.featured_champion.slug)
+    # Caso nenhum campeão esteja configurado
+    return redirect("champion", name="warwick")
 
 
 def ViewsChapions(request, name):

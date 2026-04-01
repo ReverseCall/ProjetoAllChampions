@@ -9,7 +9,7 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
 
-from .models import Champion, Vote, VoterSession, DailyVoteStat
+from .models import Champion, Vote, VoterSession, DailyVoteStat, SiteConfig
 
 # Senha de acesso — defina no settings.py:
 MODERATION_SESSION_KEY = "mod_autenticado"
@@ -71,6 +71,7 @@ def mod_painel(request):
         "ultimos_7": ultimos_7,
         "campeoes": campeoes,
         "hoje": timezone.now().date(),
+        "config": SiteConfig.get(),
     }
     return render(request, "moderacao/painel.html", context)
 
@@ -152,4 +153,50 @@ def mod_limpar(request, stat_id):
         "acao": "limpo",
         "removidos": total_removidos,
         "data": str(stat.date),
+    })
+
+
+# Define qual campeão é o destaque (redirect de /)
+@require_POST
+@csrf_protect
+def mod_set_featured(request):
+    if not _is_authenticated(request):
+        return JsonResponse({"error": "Não autorizado"}, status=403)
+ 
+    slug = request.POST.get("slug", "").strip()
+ 
+    if not slug:
+        # Limpa o destaque
+        SiteConfig.objects.filter(pk=1).update(featured_champion=None)
+        return JsonResponse({"success": True, "slug": None, "name": None})
+ 
+    try:
+        champion = Champion.objects.get(slug=slug)
+    except Champion.DoesNotExist:
+        return JsonResponse({"error": "Campeão não encontrado"}, status=404)
+ 
+    config = SiteConfig.get()
+    config.featured_champion = champion
+    config.save()
+ 
+    return JsonResponse({"success": True, "slug": champion.slug, "name": champion.name})
+ 
+ 
+# Busca campeões por nome/slug para o autocomplete do painel
+@require_GET
+def mod_search_champions(request):
+    if not _is_authenticated(request):
+        return JsonResponse({"error": "Não autorizado"}, status=403)
+ 
+    q = request.GET.get("q", "").strip().lower()
+    if not q:
+        results = Champion.objects.order_by('name')[:10]
+    else:
+        results = Champion.objects.filter(
+            models.Q(name__icontains=q) | models.Q(slug__icontains=q)
+        ).order_by('name')[:10]
+ 
+    return JsonResponse({
+        "results": [{"slug": c.slug, "name": c.name, "votes": c.vote_count}
+                    for c in results]
     })

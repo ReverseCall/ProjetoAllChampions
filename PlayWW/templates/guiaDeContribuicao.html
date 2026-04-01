@@ -99,7 +99,6 @@
 
     {# Estado inicial dos votos vindo do servidor (fonte da verdade) #}
     <script>
-        // Dados do servidor injetados no carregamento da página
         const SERVER_STATE = {
             totalVotos: {{ total_votos }},
             meusVotos: {{ meus_votos_json|safe }},
