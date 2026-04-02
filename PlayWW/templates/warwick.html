@@ -1,15 +1,13 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vai deixa 👉👈</title>
+{% block titulo %}Vai deixa 👉👈{% endblock titulo %}
+  
+{% block links %}
   <link rel="stylesheet" href="{% static 'css/warwick/primal.css'%}">
-</head>
-<body>
+{% endblock links %}
 
-  <div class="container" id="container">
+{% block site %}
+<div class="container" id="container">
     <h1 id="message1">Posso jogar de Warwick?</h1>
     <h1 id="message2">:'c</h1>
     <div class="buttons">
@@ -46,7 +44,8 @@
 <!-- Importando o scripts -->
 <script src="{% static 'js/warwick/animations.js' %}"></script>
 <script type="module" src="{% static 'js/warwick/primal.js'%}"></script>
+{% endblock site %}
 
-
-</body>
-</html>
+{% block page_by %}
+<div class="create_by" style="color: rgb(44, 44, 44);">PageBy: DeZãum</div>
+{% endblock page_by %}

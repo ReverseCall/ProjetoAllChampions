@@ -28,7 +28,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 MODERATION_PASSWORD = os.getenv('ADM_PASS')
 # SECURITY WARNING: don't run with debug turned on in production!
-ATUALIZANDO = True
+ATUALIZANDO = False
 DEBUG = ATUALIZANDO
 
 
@@ -150,3 +150,8 @@ if not ATUALIZANDO:
     STATICFILES_STORAGE = (
         'whitenoise.storage.CompressedManifestStaticFilesStorage'
     )
+
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://loscomedyhub.qzz.io",
+]
