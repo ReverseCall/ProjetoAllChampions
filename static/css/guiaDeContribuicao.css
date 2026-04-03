@@ -42,8 +42,8 @@ body .container div span strong {
 
 header {
   padding: 60px 0px 50px 0px;
-  margin-bottom: 70px;
-  border-bottom: 0.5px solid rgba(243, 223, 132, 0.178);
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(243, 223, 132, 0.178);
 }
 
 #status-page {
@@ -97,28 +97,25 @@ header {
   align-items: center;
   font-size: 30px;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 60px;
   margin-bottom: 20px;
   color: rgb(243, 223, 132);
-  padding: 0px 5px 0px 5px;
+  padding: 0px 5px;
+  width: 100%;
 }
 .start-icon::before {
   content: "";
-  display: block;
-  width: 400px;
+  flex: 1;
   height: 1px;
   margin-right: 7px;
-  border-radius: 10px 0px 0px 10px;
-  background: linear-gradient(90deg, rgba(255, 0, 0, 0), rgb(243, 223, 132));
+  background: linear-gradient(90deg, transparent, rgb(243, 223, 132));
 }
 .start-icon::after {
   content: "";
-  display: block;
-  width: 400px;
+  flex: 1;
   height: 1px;
   margin-left: 7px;
-  border-radius: 10px 0px 0px 10px;
-  background: linear-gradient(90deg, rgb(243, 223, 132), rgba(255, 0, 0, 0));
+  background: linear-gradient(90deg, rgb(243, 223, 132), transparent);
 }
 
 main {
@@ -265,16 +262,17 @@ h2 {
   flex-direction: row;
   align-items: center;
   text-align: center;
-  color: rgba(136, 129, 81, 0.938);
-  padding: 30px 0px;
+  color: rgb(243, 223, 132);
+  padding: 40px 0px 20px 0px;
   margin-left: 10px;
   letter-spacing: 1.5px;
+  text-shadow: 0 0 20px rgba(243, 202, 19, 0.418);
 }
 h2 span {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(90deg, rgb(119, 106, 35) 60%, rgb(161, 143, 39));
+  background: linear-gradient(90deg, #c4a14b);
   text-shadow: none;
   width: 20px;
   height: 20px;
@@ -287,6 +285,8 @@ h2 span {
 
 code {
   background-color: rgb(19, 19, 19);
+  border-radius: 5px;
+  border: 1px solid rgba(243, 223, 132, 0.178);
   min-height: 300px;
   display: block;
   width: 100%;
@@ -315,7 +315,25 @@ code div {
 }
 
 #color-blue {
-  color: rgb(37, 131, 160);
+  color: rgb(13, 131, 167);
+}
+
+#tag-azul {
+  color: rgb(13, 131, 167);
+  border-color: rgb(13, 131, 167);
+  background: rgba(69, 88, 105, 0.329);
+}
+
+#tag-vermelho {
+  color: rgb(224, 92, 92);
+  border-color: rgb(224, 92, 92);
+  background: rgba(224, 92, 92, 0.15);
+}
+
+#tag-verde {
+  color: rgb(77, 184, 130);
+  border-color: rgb(77, 184, 130);
+  background: rgba(77, 184, 130, 0.12);
 }
 
 #color-info {
@@ -335,4 +353,71 @@ code div {
   margin-left: 8px;
   padding-left: 10px;
   border-left: dashed rgb(54, 53, 30) 1px;
+}
+
+.tabelas {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+thead tr {
+  background: rgba(201, 168, 76, 0.08);
+  border-bottom: solid 2px rgb(119, 106, 35);
+  color: rgb(119, 106, 35);
+}
+thead tr th {
+  padding: 10px 10px;
+  font-size: 0.8em;
+  text-align: left;
+  white-space: nowrap;
+}
+
+tbody tr td {
+  padding: 10px 10px;
+  font-size: 1em;
+  text-align: start;
+  vertical-align: top;
+  color: rgb(190, 190, 190);
+  font-family: monospace;
+  font-weight: 300;
+  border-bottom: solid 1px rgba(88, 88, 70, 0.363);
+}
+tbody tr td .tag {
+  font-size: 0.8em;
+  display: inline-flex;
+  padding: 4px 4px;
+}
+tbody tr td:nth-child(4) {
+  line-height: 2em;
+}
+tbody tr td:nth-child(4) div {
+  max-height: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+td:nth-child(1), th:nth-child(1) {
+  min-width: 130px;
+}
+
+td:nth-child(2), th:nth-child(2) {
+  width: 100%;
+}
+
+td:nth-child(3), th:nth-child(3) {
+  min-width: 105px;
+  white-space: nowrap;
+}
+
+td:nth-child(4), th:nth-child(4) {
+  min-width: 90px;
+}
+
+tbody tr:nth-child(5) td {
+  border-bottom: none;
 }/*# sourceMappingURL=guiaDeContribuicao.css.map */
