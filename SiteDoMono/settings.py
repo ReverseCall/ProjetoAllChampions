@@ -28,7 +28,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 MODERATION_PASSWORD = os.getenv('ADM_PASS')
 # SECURITY WARNING: don't run with debug turned on in production!
-ATUALIZANDO = False
+ATUALIZANDO = True
 DEBUG = ATUALIZANDO
 
 

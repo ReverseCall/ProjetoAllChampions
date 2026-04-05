@@ -15,6 +15,7 @@
         {% csrf_token %}
     </form>
     <div class="container">
+        <!-- Cabeça do site -->
         <header>
             <div id="status-page">
                 em produção
@@ -24,6 +25,7 @@
                     <i></i>
                 </span>
             </div>
+
             <div>
                 <h1>
                     Guia de Contribuição
@@ -38,15 +40,17 @@
     </div>
 
     <main>
+        <!-- Todos os blocos con as informações da pagina -->
         <div class="container">
-
+            <!-- Class reutilizavel -->
             <div class="start-icon">✦</div>
+
             <div>
                 <div>
                     <div class="blocos" id="placarVotacao">
-                        <span>pedidos de criação</span>
+                        <span id="mande-sua-ideia">pedidos de criação</span>
 
-                        <!-- Contador de votos — atualizado via JS -->
+                        <!-- Contador de votos. atualizado via JS -->
                         <p id="totalVotos">{{ total_votos }}</p>
                         <p>Votos da Comunidade</p>
 
@@ -70,6 +74,7 @@
                     </div>
                 </div>
 
+                <!-- Primeiro bloco do site | Esta com um formato diferente, mas eu não quero mecher no que funciona -->
                 <div id="info">
                     <div class="blocos">
                         <div>✨</div>
@@ -84,16 +89,18 @@
                     </div>
                 </div>
             </div>
-
+            <!-- Linha -->
             <div class="start-icon">✦</div>
             <h2>
                 <span>1</span>
                 Estrutura de Arquivos Exigida
             </h2>
+            <!-- Linha -->
 
+            <!-- Bloco com as informações base sobre a pagina -->
             <div class="blocos">
                 <div class="info1">
-                    <p>Para submeter a página de um campeão, você deve enviar um único arquivo <span class="tag" id="color-gold">.zip</span> com o nome do campeão, contendo exatamente a estrutura abaixo. para <a href="">Você tem uma ideia?</a></p>
+                    <p>Para submeter a página de um campeão, você deve enviar um único arquivo <span class="tag" id="color-gold">.zip</span> com o nome do campeão, contendo exatamente a estrutura abaixo. para <a href="#mande-sua-ideia">Você tem uma ideia?</a></p>
                 </div>
                 <code>
                     <div>📦   {{nome}}.zip</div>
@@ -121,14 +128,15 @@
                     </div>
                 </code>
             </div>
-
+            <!-- Linha -->
             <div class="start-icon">✦</div>
-
             <h2>
                 <span>2</span>
                 Detalhes por Pasta
             </h2>
+            <!-- Linha -->
 
+            <!-- Primeira tabela do site. talvez que atualize ela futuramente se eu tiver tempo e voltade-->
             <div class="blocos">
                 <div class="tabelas">
                     <table>
@@ -148,7 +156,7 @@
                                 <td><div class="tag" id="tag-vermelho">Obrigatório</div></td>
                                 <td><div class="tag" id="tag-azul">.html</div></td>
                             </tr>
-                            <!--linha-->
+                            <!-- Linha -->
                             <tr>
                                 <td><div class="tag" id="tag-azul">audio/{{nome}}/</div></td>
                                 <td>Áudios do campeão: trilha de fundo e/ou efeitos sonoros</td>
@@ -158,7 +166,7 @@
                                     <div class="tag" id="tag-azul">.wav</div>
                                 </td>
                             </tr>
-                            <!--linha-->
+                            <!-- Linha -->
                             <tr>
                                 <td><div class="tag" id="tag-azul">css/{{nome}}/</div></td>
                                 <td>Folhas de estilo responsáveis pelo visual da página</td>
@@ -168,7 +176,7 @@
                                     <div class="tag" id="tag-azul">.scss</div>
                                 </td>
                             </tr>
-                            <!--linha-->
+                            <!-- Linha -->
                             <tr>
                                 <td><div class="tag" id="tag-azul">img/{{nome}}/</div></td>
                                 <td>Imagens, ilustrações ou sprites utilizados na página</td>
@@ -180,7 +188,7 @@
                                     <div class="tag" id="tag-azul">.gif</div>
                                 </td>
                             </tr>
-                            <!--linha-->
+                            <!-- Linha -->
                             <tr>
                                 <td><div class="tag" id="tag-azul">js/{{nome}}/</div></td>
                                 <td>Scripts responsáveis por interatividade ou outras funções da pagina</td>
@@ -189,7 +197,7 @@
                                     <div class="tag" id="tag-azul">.js</div>
                                 </td>
                             </tr>
-                            <!--linha-->
+                            <!-- Linha -->
                             <tr>
                                 <td><div class="tag" id="tag-azul">outros/{{nome}}/</div></td>
                                 <td>Quaisquer outros arquivos que possam ser utilizados na criação da sua página. como video/{{nome}}/, model/{{nome}}/ ETC</td>
@@ -204,22 +212,25 @@
                     </table>
                 </div>
             </div>
-
+            
+            <!-- Linha -->
             <div class="start-icon">✦</div>
-
             <h2>
                 <span>3</span>
                 Regras De Autoria
             </h2>
+            <!-- Linha -->
 
+            <!-- Segunda tebela | contei cola da classe de aviso -->
             <div class="blocos">
-                <div class="aviso" id="aviso-vermelho">
+                <div class="aviso" id="aviso-vermelho"> <!-- Avisos -->
                     <span class="aviso-icone">🚫</span>
                     <div>
                         <strong>Conteúdo 100% criados por AI não seram aceitos</strong>
                         Páginas feitas por IA não têm identidade própria. A recomendação é dedicar atenção à criação das páginas que serão exibidas aos usuários. Você pode usar essas ferramentas como auxílio caso seja algo que não chame atenção ou não seja o foco, mas evite depender delas na medida do possível, para criar uma experiência única da sua página para os usuários.
                     </div>
                 </div>
+                <!-- Linha -->
                 <div class="tabelas tabela-2">
                     <table>
                         <thead>
@@ -237,6 +248,7 @@
                                 <td>Código escrito pelo próprio autor</td>
                                 <td>Código 100% gerado por IA sem revisão humana substancial</td>
                             </tr>
+                            <!-- Linha -->
                             <tr>
                                 <td>
                                     <div class="tag" id="tag-azul">Imagens</div>
@@ -244,6 +256,7 @@
                                 <td>Arte digital, pixel art, ilustrações autorais</td>
                                 <td>Imagens geradas por IA (Midjourney, DALL·E, etc.)</td>
                             </tr>
+                            <!-- Linha -->
                             <tr>
                                 <td>
                                     <div class="tag" id="tag-azul">Áudios</div>
@@ -256,13 +269,60 @@
                 </div>
             </div>
 
+            <!-- Linha -->
             <div class="start-icon">✦</div>
-
             <h2>
                 <span>3</span>
-                Como Enviar | em produção...
+                Como Enviar
             </h2>
+            <!-- Linha -->
 
+            <!-- Bloco com as intruções do que fazer para publicar a sua pagina de campeão -->
+            <div class="blocos">
+                <div class="passos">
+                    <div class="passos">
+                        <div class="passo-num">1</div>
+                        <div class="passo-info">
+                            <h3>Escolha um campeão</h3>
+                            <p>escolha um campeão que ainda não tenha uma pagina ou um que você queria melhorar - Você tambem pode opitar por um dois campeões mais votados</p>
+                        </div>
+                    </div>
+                    <!--linha-->
+                    <div class="passos">
+                        <div class="passo-num">2</div>
+                        <div class="passo-info">
+                            <h3>Crie os arquivos</h3>
+                            <p>Monte todos os arquivos, respeitando a estrutura de pastas descrita acima. Certifique-se de colocar o HTML no local correto. Sinta-se livre para criar novos diretórios, desde que siga as regras acima.</p>
+                        </div>
+                    </div>
+                    <!--linha-->
+                    <div class="passos">
+                        <div class="passo-num">3</div>
+                        <div class="passo-info">
+                            <h3>Comprima em .zip</h3>
+                            <p>Nomeie o arquivo como {{nome}}.zip e inclua todas as pastas na raiz do zip.</p>
+                        </div>
+                    </div>
+                    <!--linha-->
+                    <div class="passos">
+                        <div class="passo-num">4</div>
+                        <div class="passo-info">
+                            <h3>Envie seu arquivo para nós</h3>
+                            <p>Apos garantir que tudo esta pronto, voce pode ir até <a href="#mande-sua-ideia">Enviar Arquivos</a> para manda o seu projeto</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Linha -->
+            <div class="start-icon">✦</div>
+            <h2>
+                <span>3</span>
+                Aviso Importante sobre Submissões | criando . . .
+            </h2>
+            <!-- Linha -->
+
+            <!-- ultimo bloco | FINALMENTE!!! -->
             <div class="blocos">
                 
             </div>

@@ -201,7 +201,7 @@ main {
                     color: $cianoEscuro;
                     text-decoration: none;
                     &:hover{
-                        color: $cianoPulse;
+                        color: $ouro;
                     }
                 }
             }
@@ -219,6 +219,7 @@ main {
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
+                position: relative;
             }
 
             :nth-child(1) {
@@ -256,7 +257,7 @@ main {
                 color: $cianoEscuro;
 
                 &:hover {
-                    color: $cianoPulse;
+                    color: $ouro;
                 }
 
             }
@@ -394,7 +395,7 @@ code{
     padding: 2px 10px;
     background-color: $blocoBase;
 }
-/* tabela um*/
+/* Tabela um*/
 .line{
     width: 100%;
     height: auto;
@@ -476,7 +477,7 @@ tbody tr:nth-child(6) td {
     border-bottom: none;
 }
 
-/* tabela dois*/
+/* Tabela dois*/
 .tabela-2 {
     td:nth-child(1), th:nth-child(1) {
         min-width: 140px;
@@ -539,3 +540,63 @@ tbody tr:nth-child(6) td {
     border: $tagVermelho solid 1px;
 }
 
+/* Passos*/
+.passos{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    &:nth-child(4){
+        &::after{
+            content: none;
+        }
+    }
+    .passos{
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        padding: 0 0 38px 0;
+        text-align: left;
+
+        .passo-num{
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, rgb(53, 38, 5), rgb(131, 100, 34));
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: $bilho solid 1.5px;
+            color: $ouro;
+        }
+        .passo-info{
+            text-align: left;
+            color: $bilho;
+            p{
+                color: rgb(190, 190, 190);
+                margin-top: 10px;
+                font-weight: 200;     
+                font-family: monospace;     
+                min-height: 50px;     
+                a{
+                    color: $cianoPulse;
+                    text-decoration: none;
+                    &:hover{
+                        color: $ouro;
+                    }
+                } 
+            }
+        }
+    }
+    &::after{
+        content: "";
+        position: absolute;
+        top: 40px;
+        left: 18px;
+        background: linear-gradient(to bottom, $ouro, $trasparente);
+        width: 2px;
+        height: 79px;
+        line-height: 2px;
+    }
+}

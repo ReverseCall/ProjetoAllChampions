@@ -165,7 +165,7 @@ main .container .blocos .info1 a {
   text-decoration: none;
 }
 main .container .blocos .info1 a:hover {
-  color: rgba(56, 126, 216, 0.959);
+  color: rgb(243, 223, 132);
 }
 main .container #info {
   display: flex;
@@ -179,6 +179,7 @@ main .container #info .blocos {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 main .container #info :nth-child(1) {
   font-size: 2rem;
@@ -211,7 +212,7 @@ main .container #info :nth-child(4) {
   color: rgb(41, 89, 153);
 }
 main .container #info :nth-child(4):hover {
-  color: rgba(56, 126, 216, 0.959);
+  color: rgb(243, 223, 132);
 }
 
 #placarVotacao {
@@ -347,7 +348,7 @@ code div {
   background-color: rgb(29, 35, 46);
 }
 
-/* tabela um*/
+/* Tabela um*/
 .line {
   width: 100%;
   height: auto;
@@ -423,7 +424,7 @@ tbody tr:nth-child(6) td {
   border-bottom: none;
 }
 
-/* tabela dois*/
+/* Tabela dois*/
 .tabela-2 td:nth-child(1), .tabela-2 th:nth-child(1) {
   min-width: 140px;
   width: auto;
@@ -475,4 +476,62 @@ tbody tr:nth-child(6) td {
   background: rgba(224, 92, 92, 0.15);
   color: rgb(194, 117, 117);
   border: rgb(224, 92, 92) solid 1px;
+}
+
+/* Passos*/
+.passos {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.passos:nth-child(4)::after {
+  content: none;
+}
+.passos .passos {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 0 0 38px 0;
+  text-align: left;
+}
+.passos .passos .passo-num {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, rgb(53, 38, 5), rgb(131, 100, 34));
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: rgba(243, 202, 19, 0.418) solid 1.5px;
+  color: rgb(243, 223, 132);
+}
+.passos .passos .passo-info {
+  text-align: left;
+  color: rgba(243, 202, 19, 0.418);
+}
+.passos .passos .passo-info p {
+  color: rgb(190, 190, 190);
+  margin-top: 10px;
+  font-weight: 200;
+  font-family: monospace;
+  min-height: 50px;
+}
+.passos .passos .passo-info p a {
+  color: rgba(56, 126, 216, 0.959);
+  text-decoration: none;
+}
+.passos .passos .passo-info p a:hover {
+  color: rgb(243, 223, 132);
+}
+.passos::after {
+  content: "";
+  position: absolute;
+  top: 40px;
+  left: 18px;
+  background: linear-gradient(to bottom, rgb(243, 223, 132), rgba(255, 0, 0, 0));
+  width: 2px;
+  height: 79px;
+  line-height: 2px;
 }/*# sourceMappingURL=guiaDeContribuicao.css.map */
